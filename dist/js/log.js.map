@@ -1,0 +1,1 @@
+{"version":3,"sources":["log.js"],"names":["a","alert","log"],"mappings":"AAEA,QAASA,KAERC,MAAM,SAASA,MAAM,SAASA,MAAM,SAJrCC,IAAI,aACJA,IAAI","file":"log.js","sourcesContent":["log('gulp-book' );\r\nlog('fsdfsd');\r\nfunction a(){\r\n\r\n\talert(\"我是你大爷\");alert(\"我是你大爷\");alert(\"我是你大爷\");\r\n}"],"sourceRoot":"/source/"}
