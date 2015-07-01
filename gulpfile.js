@@ -9,6 +9,8 @@ var autoprefixer = require('gulp-autoprefixer')
 var less = require('gulp-less')
 var sass = require('gulp-ruby-sass')
 var imagemin = require('gulp-imagemin')
+var  minifyHtml = require("gulp-minify-html");
+var browserSync = require('browser-sync');
 
 var handleError = function (err) {
     var colors = gutil.colors;
@@ -150,8 +152,28 @@ gulp.task('image', function () {
         .pipe(gulp.dest('dist/images'))
 })
 
+
+
+gulp.task('wachhtml', function () {
+
+     gulp.watch('src/**/*.html', function (event) {
+        var paths = watchPath(event,'src/', 'dist/')
+
+        gutil.log(gutil.colors.green(event.type) + ' ' + paths.srcPath)
+        gutil.log('Dist ' + paths.distPath)
+
+        gulp.src(paths.srcPath)
+        .pipe(minifyHtml()) //压缩
+        .pipe(gulp.dest(paths.distDir))
+    })
+
+
+});
+
+
+
 gulp.task('watchcopy', function () {
-    gulp.watch('src/fonts/**/*', function (event) {
+    gulp.watch('src/**/*', function (event) {
         var paths = watchPath(event,'src/', 'dist/')
 
         gutil.log(gutil.colors.green(event.type) + ' ' + paths.srcPath)
@@ -163,11 +185,18 @@ gulp.task('watchcopy', function () {
 })
 
 gulp.task('copy', function () {
-    gulp.src('src/fonts/**/*')
-        .pipe(gulp.dest('dist/fonts/'))
+    gulp.src('src/**/*')
+        .pipe(gulp.dest('dist/'))
 })
+gulp.task('browser-sync', function() {
+  browserSync({
+    files: "**",
+    server: {
+      baseDir: "./"
+    }
+  });
+});
 
 
 
-
-gulp.task('default', ['watchjs', 'watchcss', 'watchless','watchimage', 'watchcopy'])
+gulp.task('default', ['watchjs', 'watchcss', 'watchless','watchimage', 'watchcopy','wachhtml','browser-sync'])
